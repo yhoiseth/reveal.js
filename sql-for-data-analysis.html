@@ -138,6 +138,19 @@
 						LIMIT 1;  -- For clarity and performance
 					</code></pre>
 				</section>
+				<section data-markdown>
+					What is the average monthly sales for used car dealers?
+				</section>
+				<section>
+					<pre><code class="language-sql" data-trim data-line-numbers="1-2|5-6">
+						SELECT
+							avg(sales) AS average_sales
+						FROM
+							retail_sales
+						WHERE
+							kind_of_business = 'Used car dealers';
+					</code></pre>
+				</section>
 			</section>
 
 			<!-- Example of nested vertical slides -->

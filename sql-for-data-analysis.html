@@ -43,6 +43,7 @@
           2. Hands-on practice: You have to actually type that shit if your want to remember anything
           3. Break and order food at 16
           4. Keep writing SQL
+          5. Try Evidence
         </script>
       </section>
         <section data-markdown>
@@ -61,12 +62,14 @@
           In application programming, the relational part is very important.
         </section>
         <section data-markdown>
-          In analysis, it is less important — you want to transform your data so that you don’t have to worry about relations.
+          In analysis, it is less important — you want to transform your data so that you don’t have to worry about relations. (But we will look into them a bit.)
         </section>
         <section data-markdown>
           ## The dataset
 
           Daily share prices and trade volume of Apple (AAPL) and Tesla (TSLA) from Alpha Vantage.
+
+          **Not** adjusted for corporate actions like dividends and splits.
         </section>
         <section data-markdown>
           ## Some Queries
@@ -76,14 +79,14 @@
         <section>
           <h2>All tickers</h2>
           <pre><code class="language-sql" data-trim data-line-numbers="1-2|3-4">
-						SELECT            
-							*  -- Read all columns
+						SELECT -- Read
+							*  -- All columns
 						FROM              
-							tickers;  -- from “tickers” (and execute).
+							tickers;  -- Table name
 					</code></pre>
         </section>
         <section data-markdown>
-          Second, get all data points from `time_series_daily`.
+          Get all data points from `time_series_daily`.
         </section>
         <section>
           <h2>All data points</h2>
@@ -101,13 +104,37 @@
         </section>
         <section>
           <h2>All data from both tables</h2>
-          <pre><code class="language-sql" data-trim data-line-numbers="1-4|5">
+          <pre><code class="language-sql" data-trim data-line-numbers="1-4|5-7">
+            SELECT
+                *
+            FROM
+                time_series_daily -- Same as before
+                JOIN tickers ON tickers.id = time_series_daily.ticker_id;
+                -- We need to tell the database how to match rows
+                -- from different tables.
+					</code></pre>
+        </section>
+        <section data-markdown>
+          ## All data points for Tesla
+
+          Let’s include only Tesla when we get all data points.
+        </section>
+        <section>
+          <h2>Tesla’s data points only</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="1-6|7|8">
             SELECT
                 *
             FROM
                 time_series_daily
-                JOIN tickers ON tickers.id = time_series_daily.ticker_id;
+                JOIN tickers ON tickers.id = time_series_daily.ticker_id
+                -- Same as before
+            WHERE -- Filter
+                tickers.symbol = 'TSLA'; -- Condition
 					</code></pre>
+        </section>
+        <section data-markdown>
+          ## Set up Evidence on Gitpod
+
 
         </section>
 

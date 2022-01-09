@@ -190,6 +190,40 @@
 					</code></pre>
         </section>
         <section data-markdown>
+          Get Tesla’s first opening price and last closing price
+        </section>
+        <section>
+          <h2>Tesla’s first opening price and last closing price</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="5-15|16-26|2-3">
+            SELECT
+              earliest.open AS earliest_open,
+              latest.close AS latest_close
+            FROM 
+              (
+                SELECT
+                  *
+                FROM
+                  time_series_daily
+                WHERE
+                  ticker_id = 2
+                ORDER BY
+                  date ASC
+                LIMIT 1
+              ) earliest,
+              (
+                SELECT
+                  *
+                FROM
+                  time_series_daily
+                WHERE
+                  ticker_id = 2
+                ORDER BY
+                  date DESC
+                LIMIT 1
+              ) latest;
+					</code></pre>
+        </section>
+        <section data-markdown>
           ## Set up Evidence on Gitpod
 
 

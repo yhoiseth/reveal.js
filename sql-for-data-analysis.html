@@ -141,6 +141,55 @@
 					</code></pre>
         </section>
         <section data-markdown>
+          Get Apple’s average share price.
+        </section>
+        <section>
+          <h2>Apple’s average share price</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="2-3|7">
+            SELECT
+              AVG(time_series_daily.close) AS average_close
+              -- Aggregation
+            FROM
+              time_series_daily
+            WHERE
+              ticker_id = 1; -- Alternative condition
+					</code></pre>
+        </section>
+        <section data-markdown>
+          Get the day with the greatest absolute difference between high and low.
+        </section>
+        <section>
+          <h2>Greatest absolute difference between high and low</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="2-3|4|8|9">
+            SELECT
+              time_series_daily.high - time_series_daily.low AS absolute_diff,
+              -- Subtraction
+              * -- Include all columns
+            FROM
+              time_series_daily
+            ORDER BY
+              absolute_diff DESC -- Greatest first
+            LIMIT 1; -- Only one
+					</code></pre>
+        </section>
+        <section data-markdown>
+          Add percentage difference between high and low and get the row with the greatest percentage difference.
+        </section>
+        <section>
+          <h2>Greatest absolute and percentage differences between high and low</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="3|8">
+            SELECT
+              time_series_daily.high - time_series_daily.low AS diff,
+              (time_series_daily.high - time_series_daily.low) * 100 / time_series_daily.low AS percentage_diff,
+              *
+            FROM
+              time_series_daily
+            ORDER BY
+              percentage_diff DESC -- New condition
+            LIMIT 1;
+					</code></pre>
+        </section>
+        <section data-markdown>
           ## Set up Evidence on Gitpod
 
 

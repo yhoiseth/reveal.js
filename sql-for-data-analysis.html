@@ -39,11 +39,11 @@
         <script type="text/template">
           ## Plan
 
-          1. Brief presentation
-          2. Hands-on practice: You have to actually type that shit if your want to remember anything
-          3. Break and order food at 16
-          4. Keep writing SQL
-          5. Try Evidence
+          1. What is SQL?
+          2. Hands-on practice: You get a challenge and then the answer. (You have to actually try if your want to learn anything.)
+          3. Break and order food at 16. (You can expense this.)
+          4. More practice.
+          5. Try Evidence if we find the time.
         </script>
       </section>
         <section data-markdown>
@@ -52,7 +52,7 @@
           _Structured Query Language_ is a programming language for _relational databases_.
         </section>
         <section data-markdown>
-          ## Relational database
+          ## What is a relational database?
 
           A collection of tables that relate to each other. For example, a _ticker_ has many _share prices_.
 
@@ -69,7 +69,7 @@
 
           Daily share prices and trade volume of Apple (AAPL) and Tesla (TSLA) from Alpha Vantage.
 
-          **Not** adjusted for corporate actions like dividends and splits.
+          (**Not** adjusted for corporate actions like dividends and splits.)
         </section>
         <section data-markdown>
           ## Some Queries
@@ -92,6 +92,7 @@
           2. `SELECT` always returns a table—for example, try `SELECT 1`.
           3. Then, try `SELECT 1 AS number`. What’s the difference?
           4. Keywords like `SELECT` are case insensitive — `select` also works.
+          5. Indentation is for humans, not for the computer.
         </section>
         <section data-markdown>
           Get all data points from `time_series_daily`.
@@ -148,19 +149,19 @@
           <pre><code class="language-sql" data-trim data-line-numbers="2-3|7">
             SELECT
               AVG(time_series_daily.close) AS average_close
-              -- Aggregation
+              -- Aggregation with alias
             FROM
               time_series_daily
             WHERE
-              ticker_id = 1; -- Alternative condition
+              ticker_id = 1; -- Alternative condition to skip join
 					</code></pre>
         </section>
         <section data-markdown>
-          Get the day with the greatest absolute difference between high and low.
+          Get the day with the greatest absolute difference between _high_ and _low_.
         </section>
         <section>
           <h2>Greatest absolute difference between high and low</h2>
-          <pre><code class="language-sql" data-trim data-line-numbers="2-3|4|8|9">
+          <pre><code class="language-sql" data-trim data-line-numbers="2-3|4|7-8|9">
             SELECT
               time_series_daily.high - time_series_daily.low AS absolute_diff,
               -- Subtraction
@@ -227,12 +228,13 @@
           Add how much the share price has increased.
         </section>
         <section>
-          <h2>Tesla’s first opening price and last closing price</h2>
-          <pre><code class="language-sql" data-trim data-line-numbers="4">
+          <h2>Tesla’s share price increase</h2>
+          <pre><code class="language-sql" data-trim data-line-numbers="4-5">
             SELECT
               earliest.open AS earliest_open,
               latest.close AS latest_close,
-              latest.close / earliest.open AS change
+              latest.close / earliest.open AS relative_change,
+              latest.close - earliest.open AS absolute_change
             FROM (
               SELECT
                 *
